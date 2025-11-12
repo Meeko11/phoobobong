@@ -17,21 +17,19 @@ class AuthService with ChangeNotifier {
 
   bool get isAuthenticated => _user != null;
 
-  Future<void> signUp({required String email, required String password}) async {
+  Future<UserCredential> signUp({required String email, required String password}) async {
     try {
-      await _auth.createUserWithEmailAndPassword(email: email, password: password);
-    } on FirebaseAuthException catch (e) {
-      // Handle errors
-      debugPrint(e.message);
+      return await _auth.createUserWithEmailAndPassword(email: email, password: password);
+    } on FirebaseAuthException {
+      rethrow;
     }
   }
 
-  Future<void> signIn({required String email, required String password}) async {
+  Future<UserCredential> signIn({required String email, required String password}) async {
     try {
-      await _auth.signInWithEmailAndPassword(email: email, password: password);
-    } on FirebaseAuthException catch (e) {
-      // Handle errors
-      debugPrint(e.message);
+      return await _auth.signInWithEmailAndPassword(email: email, password: password);
+    } on FirebaseAuthException {
+      rethrow;
     }
   }
 
